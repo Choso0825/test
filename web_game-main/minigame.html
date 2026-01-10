@@ -6,6 +6,138 @@
     <title>Unity WebGL Player | collaborative-practice-project</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+    <style>
+      #unity-container {
+        position: relative;
+      }
+
+      #discount-overlay {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        z-index: 20;
+        pointer-events: none;
+      }
+
+      #discount-overlay button {
+        pointer-events: auto;
+        background: rgba(0, 0, 0, 0.75);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 999px;
+        padding: 8px 14px;
+        font-size: 13px;
+        cursor: pointer;
+      }
+
+      #discount-modal[aria-hidden="true"] {
+        display: none;
+      }
+
+      #discount-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 40;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: auto;
+      }
+
+      #discount-modal .modal-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.55);
+      }
+
+      #discount-modal .modal-panel {
+        position: relative;
+        background: #111;
+        color: #fff;
+        width: min(90vw, 420px);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+        z-index: 1;
+      }
+
+      #discount-modal .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+
+      #discount-modal .modal-header h2 {
+        margin: 0;
+        font-size: 18px;
+      }
+
+      #discount-modal .modal-close {
+        background: transparent;
+        border: 0;
+        color: #fff;
+        font-size: 22px;
+        cursor: pointer;
+      }
+
+      .discount-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .discount-row {
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 10px;
+        padding: 12px;
+        display: grid;
+        gap: 8px;
+      }
+
+      .discount-row .code-label {
+        font-weight: 600;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .discount-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .discount-actions button,
+      .discount-actions a {
+        flex: 1 1 140px;
+        text-align: center;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 8px 10px;
+        font-size: 13px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .discount-actions button:hover,
+      .discount-actions a:hover,
+      #discount-overlay button:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      @media (max-width: 520px) {
+        #discount-overlay {
+          top: 8px;
+          right: 8px;
+        }
+
+        #discount-modal .modal-panel {
+          padding: 16px;
+        }
+      }
+    </style>
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
@@ -22,8 +154,121 @@
         <div id="unity-fullscreen-button"></div>
         <div id="unity-build-title">collaborative-practice-project</div>
       </div>
+      <div id="discount-overlay">
+        <button type="button" id="discount-open">Claim discount ticket</button>
+      </div>
+    </div>
+    <div id="discount-modal" aria-hidden="true">
+      <div class="modal-backdrop" data-modal-close></div>
+      <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="discount-title">
+        <div class="modal-header">
+          <h2 id="discount-title">Discount tickets</h2>
+          <button class="modal-close" type="button" data-modal-close aria-label="Close">×</button>
+        </div>
+        <div class="discount-list">
+          <div class="discount-row" data-code="hfnskvb2">
+            <div class="code-label">
+              <span>2% discount</span>
+              <span>hfnskvb2</span>
+            </div>
+            <div class="discount-actions">
+              <button type="button" class="copy-code">Copy code</button>
+              <a class="ticket-link" target="_blank" rel="noopener">Open ticket page</a>
+            </div>
+          </div>
+          <div class="discount-row" data-code="ouhbyf4">
+            <div class="code-label">
+              <span>4% discount</span>
+              <span>ouhbyf4</span>
+            </div>
+            <div class="discount-actions">
+              <button type="button" class="copy-code">Copy code</button>
+              <a class="ticket-link" target="_blank" rel="noopener">Open ticket page</a>
+            </div>
+          </div>
+          <div class="discount-row" data-code="zkhbed6">
+            <div class="code-label">
+              <span>6% discount</span>
+              <span>zkhbed6</span>
+            </div>
+            <div class="discount-actions">
+              <button type="button" class="copy-code">Copy code</button>
+              <a class="ticket-link" target="_blank" rel="noopener">Open ticket page</a>
+            </div>
+          </div>
+          <div class="discount-row" data-code="qwernf8">
+            <div class="code-label">
+              <span>8% discount</span>
+              <span>qwernf8</span>
+            </div>
+            <div class="discount-actions">
+              <button type="button" class="copy-code">Copy code</button>
+              <a class="ticket-link" target="_blank" rel="noopener">Open ticket page</a>
+            </div>
+          </div>
+          <div class="discount-row" data-code="issfms10">
+            <div class="code-label">
+              <span>10% discount</span>
+              <span>issfms10</span>
+            </div>
+            <div class="discount-actions">
+              <button type="button" class="copy-code">Copy code</button>
+              <a class="ticket-link" target="_blank" rel="noopener">Open ticket page</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <script>
+      var discountModal = document.querySelector("#discount-modal");
+      var discountOpen = document.querySelector("#discount-open");
+      var modalCloseTargets = document.querySelectorAll("[data-modal-close]");
+      var discountRows = document.querySelectorAll(".discount-row");
+
+      function setModalOpen(isOpen) {
+        discountModal.setAttribute("aria-hidden", isOpen ? "false" : "true");
+      }
+
+      function copyCode(code) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          return navigator.clipboard.writeText(code);
+        }
+        var textarea = document.createElement("textarea");
+        textarea.value = code;
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand("copy");
+        } finally {
+          document.body.removeChild(textarea);
+        }
+        return Promise.resolve();
+      }
+
+      discountOpen.addEventListener("click", function() {
+        setModalOpen(true);
+      });
+
+      modalCloseTargets.forEach(function(target) {
+        target.addEventListener("click", function() {
+          setModalOpen(false);
+        });
+      });
+
+      discountRows.forEach(function(row) {
+        var code = row.getAttribute("data-code");
+        var copyButton = row.querySelector(".copy-code");
+        var ticketLink = row.querySelector(".ticket-link");
+
+        ticketLink.href = "https://www.btwclub.co.uk/bird?achievementcode=" + encodeURIComponent(code);
+
+        copyButton.addEventListener("click", function() {
+          copyCode(code);
+        });
+      });
 
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
