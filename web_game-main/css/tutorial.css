@@ -1,0 +1,170 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: Arial, sans-serif;
+  background-color:   #278957;
+  color: white;
+  text-align: center;
+}
+
+/* 导航栏 */
+.navbar {
+  background: black;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 15px 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.navbar .logo {
+  font-size: 28px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.navbar nav {
+  margin-left: auto;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 18px;
+  transition: color 0.3s;
+}
+
+.navbar ul li a:hover {
+  color: #ffcc00;
+}
+
+.navbar button {
+  background: linear-gradient(45deg, #ff7300, #ffcc00);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.navbar button:hover {
+  background: linear-gradient(45deg, #ffcc00, #ff7300);
+  transform: scale(1.1);
+}
+
+/* 教程内容 */
+.tutorial-container {
+  max-width: 900px;
+  margin: 50px auto;
+  background: black;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(255, 204, 0, 0.4);
+}
+
+.tutorial-container h2 {
+  color: #ffcc00;
+  margin-bottom: 20px;
+}
+
+.controller-image {
+  width: 100%;
+  max-width: 500px;
+  margin: 20px auto;
+  display: block;
+  border-radius: 10px;
+ ;
+}
+
+.controls-list {
+  text-align: left;
+  margin-top: 20px;
+}
+
+.controls-list li {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+
+.levels-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  margin: 60px auto;
+}
+
+.level-box {
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  border: 2px solid #ffcc00;
+  border-radius: 10px;
+  padding: 20px;
+  width: 700px;
+  box-shadow: 0 0 12px rgba(255, 204, 0, 0.5);
+  transition: transform 0.3s;
+  position: relative;
+}
+
+.level-box:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 204, 0, 0.8);
+}
+
+.level-box h3 {
+  color: #ffcc00;
+  margin-bottom: 10px;
+}
+
+.difficulty {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 18px;
+}
+
+.easy { color: #00ff99; }
+.medium { color: #ffcc00; }
+.hard { color: #ff4444; }
+.level-button {
+  margin-top: 15px;
+  display: inline-block;
+  background: linear-gradient(45deg, #ffcc00, #ffaa00);
+  color: #f7f7f7;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: large;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.level-button:hover {
+  background: linear-gradient(45deg, #ffaa00, #ffcc00);
+}
+
+@media screen and (max-width: 768px) {
+  .level-box {
+    width: 90%;
+  }
+  .controller-image {
+    width: 90%;
+  }
+  .tutorial-container {
+    padding: 0 20px;
+  }
+}
