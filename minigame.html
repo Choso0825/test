@@ -9,7 +9,7 @@
   <style id="discount-ui-style">
   /* Discount overlay UI (no Unity source required) */
   #discount-ui-root{position:fixed;top:14px;right:14px;z-index:9999;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;pointer-events:none;}
-  #discount-fab{pointer-events:auto;border:0;border-radius:999px;padding:10px 14px;font-size:14px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.25);background:#111;color:#fff;}
+  #discount-fab{display:none;pointer-events:auto;border:0;border-radius:999px;padding:10px 14px;font-size:14px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.25);background:#111;color:#fff;}
   #discount-fab:focus{outline:2px solid #fff;outline-offset:2px;}
   #discount-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9998;display:none;}
   #discount-modal{position:fixed;right:14px;top:58px;max-width:min(440px,calc(100vw - 28px));width:420px;background:#fff;color:#111;border-radius:14px;box-shadow:0 16px 50px rgba(0,0,0,.35);z-index:9999;display:none;pointer-events:auto;}
@@ -215,6 +215,60 @@
   var closeBtn = document.getElementById('discount-close');
   var toast = document.getElementById('discount-toast');
   var TICKET_BASE = 'https://www.btwclub.co.uk/bird?achievementcode=';
+  // Unlock discount UI only after final completion (no Unity source required)
+  var UNLOCK_KEY = 'btw_discount_unlocked';
+
+  function setFabVisible(visible) {
+    if (!fab) return;
+    fab.style.display = visible ? 'inline-block' : 'none';
+  }
+
+  function isUnlocked() {
+    try { return localStorage.getItem(UNLOCK_KEY) === '1'; } catch (e) { return false; }
+  }
+
+  function unlockDiscountUI() {
+    try { localStorage.setItem(UNLOCK_KEY, '1'); } catch (e) {}
+    setFabVisible(true);
+    // If embedded in a parent page, notify it too (harmless if not used)
+    try {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: UNLOCK_KEY }, '*');
+      }
+    } catch (e) {}
+  }
+
+  function isTicketUrl(url) {
+    return typeof url === 'string' &&
+      (url.indexOf('btwclub.co.uk/bird') !== -1 || url.indexOf('achievementcode') !== -1);
+  }
+
+  // Initial state: hidden until unlocked
+  setFabVisible(isUnlocked());
+
+  // Treat "Get Ticket" redirect as the completion signal
+  (function hookTicketRedirect() {
+    var _open = window.open;
+    window.open = function(url, target, features) {
+      try { if (isTicketUrl(url)) unlockDiscountUI(); } catch (e) {}
+      return _open.call(window, url, target, features);
+    };
+
+    try {
+      var loc = window.location;
+      var _assign = loc.assign.bind(loc);
+      loc.assign = function(url) {
+        try { if (isTicketUrl(url)) unlockDiscountUI(); } catch (e) {}
+        return _assign(url);
+      };
+      var _replace = loc.replace.bind(loc);
+      loc.replace = function(url) {
+        try { if (isTicketUrl(url)) unlockDiscountUI(); } catch (e) {}
+        return _replace(url);
+      };
+    } catch (e) {}
+  })();
+
 
   function showToast(msg) {
     if (!toast) return;
